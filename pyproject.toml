@@ -12,7 +12,7 @@ krtools = "krtools.__main__:app"
 python = "^3.11"
 sqlalchemy = "^2.0.9"
 pydantic = {extras = ["all"], version = "^1.10.7"}
-typer = {extras = ["all"], version = "^0.7.0"}
+typer = {extras = ["all"], version = "^0.9.0"}
 psycopg2 = "^2.9.6"
 python-dotenv = "^1.0.0"
 csvreader = "^0.0.4"
