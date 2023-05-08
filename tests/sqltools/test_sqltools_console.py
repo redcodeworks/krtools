@@ -4,6 +4,7 @@ import pytest
 
 from krtools.__main__ import app
 
+
 @pytest.fixture
 def runner() -> CliRunner:
     return typer.testing.CliRunner()

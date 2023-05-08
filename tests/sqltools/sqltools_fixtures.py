@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 import pytest
 from datetime import datetime
 from krtools import conf as app_conf
-from models.mypostgres import movielens
+from models.movielens.orm import Base, Movie
 from unittest.mock import Mock
 from pytest_mock import MockFixture
 
@@ -24,8 +24,8 @@ def orm_metadata(engine):
 
 
 @pytest.fixture(scope="module")
-def db_session(engine, valid_movie: movielens.Movie) -> Session:
-    movielens.Base.metadata.create_all(engine)
+def db_session(engine) -> Session:
+    Base.metadata.create_all(engine)
     session = Session(bind=engine)
     yield session
     session.rollback()
@@ -35,12 +35,18 @@ def db_session(engine, valid_movie: movielens.Movie) -> Session:
 # TODO: Add a fixture for a minimal movie with the bare minimum info populated.
 @pytest.fixture(scope="session")
 def valid_movie():
-    return movielens.Movie(
+    return Movie(
         adult=False,
         belongs_to_collection=None,
         budget=12500000,
-        genres=str([{'id': 28, 'name': 'Action'}, {'id': 53, 'name': 'Thriller'}, {'id': 80, 'name': 'Crime'},
-                    {'id': 10749, 'name': 'Romance'}]),
+        genres=str(
+            [
+                {"id": 28, "name": "Action"},
+                {"id": 53, "name": "Thriller"},
+                {"id": 80, "name": "Crime"},
+                {"id": 10749, "name": "Romance"},
+            ]
+        ),
         homepage=None,
         id=319,
         imdb_id="tt0108399",
@@ -49,14 +55,26 @@ def valid_movie():
         overview="REDACTED",
         popularity=17.189328,
         poster_path="/xBO8R3CZfrJ9rrwrZoJ68PgJyAR.jpg",
-        production_companies=str([{'name': 'Davis-Films', 'id': 342}, {'name': 'August Entertainment', 'id': 3322},
-                                  {'name': 'Warner Bros.', 'id': 6194},
-                                  {'name': 'Morgan Creek Productions', 'id': 10210}]),
-        production_countries=str([{'iso_3166_1': 'US', 'name': 'United States of America'}]),
+        production_companies=str(
+            [
+                {"name": "Davis-Films", "id": 342},
+                {"name": "August Entertainment", "id": 3322},
+                {"name": "Warner Bros.", "id": 6194},
+                {"name": "Morgan Creek Productions", "id": 10210},
+            ]
+        ),
+        production_countries=str(
+            [{"iso_3166_1": "US", "name": "United States of America"}]
+        ),
         release_date="1993-01-01",
         revenue=12281551,
         runtime=120,
-        spoken_languages=str([{'iso_639_1': 'en', 'name': 'English'}, {'iso_639_1': 'it', 'name': 'Italiano'}]),
+        spoken_languages=str(
+            [
+                {"iso_639_1": "en", "name": "English"},
+                {"iso_639_1": "it", "name": "Italiano"},
+            ]
+        ),
         status="Released",
         tagline="Stealing, Cheating, Killing. Who said romance was dead?",
         title="True Romance",

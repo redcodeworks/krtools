@@ -12,10 +12,7 @@ from sqlalchemy.orm import mapped_column as col
 
 
 class Base(DeclarativeBase):
-    type_annotation_map = {
-        int: BIGINT,
-        datetime.datetime: DateTime(timezone=True)
-    }
+    type_annotation_map = {int: BIGINT, datetime.datetime: DateTime(timezone=True)}
 
 
 # TODO: Add more precise constraints
@@ -48,7 +45,9 @@ class Movie(Base):
     vote_count: Mapped[int | None]
 
     # TODO: Put validator on CSV parsing side.
-    @validates("runtime", "budget", "revenue", "popularity", "vote_average", "vote_count")
+    @validates(
+        "runtime", "budget", "revenue", "popularity", "vote_average", "vote_count"
+    )
     def _empty_string_to_none(self, key, value):
         return value if value else None
 
@@ -67,5 +66,3 @@ class Movie(Base):
 
     def __repr__(self):
         return f"Movie({self.id}, {self.title}, {self.release_date})"
-
-
