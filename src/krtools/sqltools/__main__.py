@@ -11,6 +11,7 @@ from typing_extensions import Annotated
 from .. import conf
 import sqlalchemy as sa
 from . import create as c
+from . import build as b
 
 app = typer.Typer()
 
@@ -31,29 +32,55 @@ def _sa_engine(sql_alchemy_tgt: str = None):
 
     return engine
 
+
 @app.callback()
-def callback(
-        version: bool = typer.Option(
-            None, is_eager=True
-        )
-):
+def callback(version: bool = typer.Option(None, is_eager=True)):
     """
     Set of tools for interacting with SQL databases.
     Uses config specified in .env file.
     """
 
 
+@app.command()
+def build(
+    sql_alchemy_tgt: str = typer.Option(
+        None, "--target", "-t", help="Target using SQL Alchemy string"
+    ),
+    schema_name: str = typer.Option(
+        ..., "--schema", "-s", help="Corresponds to a directory in models."
+    ),
+):
+    engine = _sa_engine(sql_alchemy_tgt)
+    model = import_module(f"models.{schema_name}").get_model("base")
+
+    b.build_database(engine, model)
+
+
 # TODO: Add support for more file types. Currently expects csvs
 @app.command()
 def create(
-        input_files: list[str] = typer.Argument(None, help="List of files. Ignored if an input_dir is supplied"),
-        input_dir: str = typer.Option(None, "--input-dir", "-i",
-                                      help="Path to a directory. Will process all filenames with appropriate extension."),
-        sql_alchemy_tgt: str = typer.Option(None, "--target", "-t", help="Target using SQL Alchemy string"),
-        schema_name: str = typer.Option(..., "--schema", "-s", help="Corresponds to a directory in models."),
-        model_name: str = typer.Option(..., "--model", "-m", help="Corresponds to some matched model in a schema."),
-        upsert: bool = typer.Option(False, "--upsert", "-u", help="Overwrites if PK exists")
-):
+    input_files: list[str] = typer.Argument(
+        None, help="List of files. Ignored if an input_dir is supplied"
+    ),
+    input_dir: str = typer.Option(
+        None,
+        "--input-dir",
+        "-i",
+        help="Path to a directory. Will process all filenames with appropriate extension.",
+    ),
+    sql_alchemy_tgt: str = typer.Option(
+        None, "--target", "-t", help="Target using SQL Alchemy string"
+    ),
+    schema_name: str = typer.Option(
+        ..., "--schema", "-s", help="Corresponds to a directory in models."
+    ),
+    model_name: str = typer.Option(
+        ..., "--model", "-m", help="Corresponds to some matched model in a schema."
+    ),
+    upsert: bool = typer.Option(
+        False, "--upsert", "-u", help="Overwrites if PK exists"
+    ),
+) -> None:
     engine = _sa_engine(sql_alchemy_tgt)
     model = import_module(f"models.{schema_name}").get_model(model_name)
 
@@ -65,25 +92,25 @@ def create(
 
 # TODO: Needs implementation
 @app.command()
-def read(item: str):
+def read(item: str) -> None:
     print(f"Reading {item}")
 
 
 # TODO: Needs implementation
 @app.command()
-def update(item: str):
+def update(item: str) -> None:
     print(f"Updating {item}")
 
 
 # TODO: Needs implementation
 @app.command()
-def delete(item: str):
+def delete(item: str) -> None:
     print(f"Deleting {item}")
 
 
 # TODO: Needs implementation
 @app.command()
-def merge(item: str):
+def merge(item: str) -> None:
     print(f"Deleting {item}")
 
 
