@@ -1,16 +1,17 @@
 import csv
+import itertools
 import json
+import logging
+import os
 from typing import Any
 
 import sqlalchemy as sa
-from sqlalchemy import Engine, MetaData
-from sqlalchemy.orm import Session
-import os
-from ..conf import conf
-import itertools
 from rich import print
 from rich.pretty import pprint
-import logging
+from sqlalchemy import Engine, MetaData
+from sqlalchemy.orm import Session
+
+from ..conf import conf
 
 
 def build_database(engine: Engine, model: Any) -> None:

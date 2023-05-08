@@ -1,8 +1,10 @@
 import logging
-from pathlib import Path
-from .conf import conf
-import click
 import os
+from pathlib import Path
+
+import click
+
+from .conf import conf
 
 # App scaffolding
 __version__ = "0.1.0"

@@ -1,15 +1,15 @@
 import csv
+import itertools
+import logging
+import os
 from pathlib import Path
 from typing import Any
 
 import sqlalchemy as sa
 from sqlalchemy import Engine
-from sqlalchemy.orm import Session, DeclarativeBase
-import os
-from ..conf import conf
-import itertools
+from sqlalchemy.orm import DeclarativeBase, Session
 
-import logging
+from ..conf import conf
 
 
 # Create a generator for streaming in the csv file's lines

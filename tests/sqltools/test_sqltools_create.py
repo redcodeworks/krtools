@@ -1,13 +1,13 @@
 
-from sqltools_fixtures import engine, db_session
+from sqltools_fixtures import engine, db_session # isort: skip
 from pathlib import Path
 
 import pytest
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from models.movielens.orm import Movie
 from krtools.sqltools.create import upsert_from_file
+from models.movielens.orm import Movie
 
 tgt_results = (100, 4203739173, 6.219)
 

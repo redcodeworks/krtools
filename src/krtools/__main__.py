@@ -2,6 +2,7 @@
 import sys
 
 import typer
+
 from . import __version__
 from .sqltools.__main__ import app as sqltools
 

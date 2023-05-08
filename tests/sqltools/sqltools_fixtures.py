@@ -1,23 +1,24 @@
 import csv
+from datetime import datetime
+from unittest.mock import Mock
 
+import pytest
 import sqlalchemy as sa
+from pytest_mock import MockFixture
 from sqlalchemy import Engine, MetaData
 from sqlalchemy.orm import Session
-import pytest
-from datetime import datetime
+
 from krtools import conf as app_conf
 from models.movielens.orm import Base, Movie
-from unittest.mock import Mock
-from pytest_mock import MockFixture
 
 
 @pytest.fixture(scope="module")
-def engine():
+def engine() -> Engine:
     return sa.create_engine(app_conf.sql_alchemy_string.get_secret_value())
 
 
 @pytest.fixture(scope="module")
-def orm_metadata(engine):
+def orm_metadata(engine) -> MetaData:
     metadata = MetaData()
     metadata.reflect(engine)
     return metadata
@@ -34,7 +35,7 @@ def db_session(engine) -> Session:
 
 # TODO: Add a fixture for a minimal movie with the bare minimum info populated.
 @pytest.fixture(scope="session")
-def valid_movie():
+def valid_movie() -> Movie:
     return Movie(
         adult=False,
         belongs_to_collection=None,

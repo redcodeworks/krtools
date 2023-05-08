@@ -1,6 +1,7 @@
-from sqltools_fixtures import engine, db_session, valid_movie, orm_metadata
-from sqlalchemy import select, MetaData, Column
+from sqltools_fixtures import engine, db_session, valid_movie, orm_metadata # isort: skip
+from sqlalchemy import Column, MetaData, select
 from sqlalchemy.orm import Session
+
 from models.movielens.orm import Movie
 
 

@@ -1,6 +1,6 @@
+import pytest
 import typer.testing
 from typer.testing import CliRunner
-import pytest
 
 from krtools.__main__ import app
 

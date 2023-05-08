@@ -1,14 +1,14 @@
-import re
 import datetime
-
-from pydantic import BaseModel
+import re
 
 import sqlalchemy as sa
-from pydantic.dataclasses import dataclass
-from sqlalchemy import Column, Integer, String, Numeric, DateTime, BIGINT
 import sqlalchemy.types as types
-from sqlalchemy.orm import DeclarativeBase, Mapped, validates
+from pydantic import BaseModel
+from pydantic.dataclasses import dataclass
+from sqlalchemy import BIGINT, Column, DateTime, Integer, Numeric, String
+from sqlalchemy.orm import DeclarativeBase, Mapped
 from sqlalchemy.orm import mapped_column as col
+from sqlalchemy.orm import validates
 
 
 class Base(DeclarativeBase):
