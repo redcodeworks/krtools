@@ -13,7 +13,7 @@ from ..conf import conf
 
 
 # Create a generator for streaming in the csv file's lines
-def _stream_csv(filename: str) -> dict:
+def _stream_csv(filename: Path) -> dict:
     with open(filename, "r", buffering=(1024**2) * conf.read_buffer) as f:
         reader = csv.DictReader(f)
         for row in reader:
