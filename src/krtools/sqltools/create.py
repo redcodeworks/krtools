@@ -17,10 +17,10 @@ def _stream_csv(filename):
             yield row
 
 
-def upsert_from_file(filename, engine, model, merge=False):
+def upsert_from_file(filename, engine, model, upsert=False):
     logging.info(f"Inserting records from `{filename}` using `{model.__name__}` ORM.")
 
     with Session(engine) as session, session.begin():
-        insert = session.merge if merge else session.add
+        insert = session.merge if upsert else session.add
         [insert(model(**row)) for row in _stream_csv(filename)]
 

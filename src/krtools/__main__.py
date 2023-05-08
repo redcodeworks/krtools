@@ -19,7 +19,7 @@ def callback(
     version: bool = typer.Option(
         None, "--version", callback=version_callback, is_eager=True
     )
-):\
+):
     """
     KR Tools By Kevin Riley
     A collection of data-focused command line tools
