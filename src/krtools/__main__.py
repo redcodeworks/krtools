@@ -10,6 +10,7 @@ app = typer.Typer()
 
 
 def version_callback(value: bool):
+    """Response to `--version` option."""
     if value:
         typer.echo(f"KR Tools: {__version__}")
         raise typer.Exit()
@@ -29,8 +30,8 @@ def callback(
     """
 
 
+# Each sub-app should be added here.
 app.add_typer(sqltools, name="sql")
-
 
 if __name__ == "__main__":
     app()

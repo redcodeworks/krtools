@@ -1,3 +1,14 @@
+"""CLI tool for working with SQL databases.
+
+Todo:
+    While neat, it does raise questions on the reusability as a command line tool.
+    ORM models, to get the most out of them, can be DBMS-specific. In this instance
+    the `movielens.Movie` model can be built with SQLite or Postgres with no problem,
+    but this starts to break down when using more advanced features in any given
+    SQL dialect.
+    Brainstorm on a way on how to BYO-ORM.
+"""
+
 import logging
 import sys
 from importlib import import_module
@@ -6,6 +17,7 @@ from pathlib import Path
 import sqlalchemy as sa
 import typer
 from rich import print
+from sqlalchemy import Engine
 from typing_extensions import Annotated
 
 from .. import conf
@@ -15,13 +27,16 @@ from . import create as c
 app = typer.Typer()
 
 
-def _sa_engine(sql_alchemy_tgt: str = None):
+def _sa_engine(sql_alchemy_tgt: str = None) -> Engine:
     """Generates a SQL Alchemy Engine
 
-    If a target is explicitly provided, it will fall back on the env variable `SQL_ALCHEMY_STRING`
+    Args:
+        sql_alchemy_tgt (str, optional): The SQL alchemy connection string. If left blank,
+            this will fallback on the value of `SQL_ALCHEMY_STRING` in the .env file or the
+            system environment variable.
 
-    :param sql_alchemy_tgt: str
-    :return: a SQL alchemy engine
+    Return:
+        engine (sqlalchemy.Engine): An engine from SQL Alchemy. Can be used to open a DB session.
     """
     engine = sa.create_engine(
         sql_alchemy_tgt or conf.sql_alchemy_string.get_secret_value()
@@ -48,7 +63,12 @@ def build(
     schema_name: str = typer.Option(
         ..., "--schema", "-s", help="Corresponds to a directory in models."
     ),
-):
+) -> None:
+    """Command line entry point for `sql build`
+
+    Takes an ORM Model and builds the schema in the target database.
+    See the `--help` flag for details.
+    """
     engine = _sa_engine(sql_alchemy_tgt)
     model = import_module(f"models.{schema_name}").get_model("base")
 
@@ -80,6 +100,11 @@ def create(
         False, "--upsert", "-u", help="Overwrites if PK exists"
     ),
 ) -> None:
+    """Command line entry poit for `sql create`
+
+    This takes a file, or a directory of files, and inserts them into the target database.
+    See the `--help` flag for details.
+    """
     engine = _sa_engine(sql_alchemy_tgt)
     model = import_module(f"models.{schema_name}").get_model(model_name)
 

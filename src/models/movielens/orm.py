@@ -1,3 +1,4 @@
+"""Defines the ORM for tables in the movielens schema."""
 import datetime
 import re
 

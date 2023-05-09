@@ -1,3 +1,5 @@
+"""Functions for writing DDL commands to a database."""
+
 import csv
 import itertools
 import json
@@ -15,6 +17,12 @@ from ..conf import conf
 
 
 def build_database(engine: Engine, model: Any) -> None:
+    """Takes an ORM and builds the DDL in the target database.
+
+    Args:
+        engine (sqlalchemy.Engine): A engine from SQL Alchemy.
+        model (sqlalchemy.DeclarativeBase): An ORM model from SQL Alchemy.
+    """
     model.metadata.create_all(engine)
     metadata = MetaData()
     metadata.reflect(engine)

@@ -1,3 +1,9 @@
+"""Application initialization.
+Primarily generates metadata, creates the user's application folder, and initializes the logger.
+
+The application folder is different for each OS. See `click.get_app_dir()` for more info.
+"""
+
 import logging
 import os
 from pathlib import Path
@@ -11,14 +17,14 @@ __version__ = "0.1.0"
 
 # App directory where logs and other artifacts are saved
 __appdir__ = Path(click.get_app_dir(__name__))
-__appdir__.mkdir(parents=True, exist_ok=True)
+__appdir__.joinpath("logs/").mkdir(parents=True, exist_ok=True)
 
 # Base logging config to file
 logging.basicConfig(
     level=logging.DEBUG,
     format="[%(asctime)s] %(name)s - %(levelname)s - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
-    filename=__appdir__.joinpath(f"{__name__}.log"),
+    filename=__appdir__.joinpath(f"logs/{__name__}.log"),
     filemode="a",
     force=True,
 )
@@ -34,5 +40,3 @@ console.setFormatter(formatter)
 logging.info(f"Starting {__name__} v{__version__}!")
 logging.warning(f"Log level set to '{conf.log_level.upper()}'")
 logging.info(f"Log files writing to {__appdir__}")
-# </editor-fold>
-
