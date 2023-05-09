@@ -23,4 +23,4 @@ jobs:
           architecture: x64
           cache: 'poetry'
       - run: poetry install
-      - run: pytest
+      - run: poetry run pytest
