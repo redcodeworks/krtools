@@ -1,5 +1,6 @@
 import csv
 from datetime import datetime
+from pathlib import Path
 from unittest.mock import Mock
 
 import pytest
@@ -87,7 +88,7 @@ def valid_movie() -> Movie:
 
 @pytest.fixture(scope="session")
 def movies_csv():
-    with open("data/movies_test.csv", "r") as f:
+    with open(Path("tests/data/movies_test.csv"), "r") as f:
         reader = csv.DictReader(f)
         for row in reader:
             yield row
