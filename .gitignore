@@ -263,3 +263,4 @@ cython_debug/
 
 data/*
 tests/test.db
+scripts/brooklyndata/*

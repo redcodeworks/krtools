@@ -6,7 +6,7 @@ import typer
 from . import __version__
 from .sqltools.__main__ import app as sqltools
 
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True)
 
 
 def version_callback(value: bool):
