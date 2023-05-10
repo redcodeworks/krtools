@@ -79,7 +79,6 @@ def upsert_from_file(
     logging.info(f"Inserting records from `{file}` using `{model.__name__}` ORM.")
 
     stream = _set_generator(file, columns)
-    fieldnames = next(stream)
 
     with Session(engine) as session, session.begin():
         insert = session.merge if upsert else session.add
