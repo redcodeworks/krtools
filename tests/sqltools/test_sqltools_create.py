@@ -22,14 +22,14 @@ def smt_summary():
 
 
 def test_insert_file(engine, db_session: Session, smt_summary):
-    upsert_from_file(Path("tests/data/movies_test.csv"), engine, Movie, upsert=False)
+    upsert_from_file(engine, Movie, Path("tests/data/movies_test.csv"), upsert=False)
 
     result = db_session.execute(smt_summary)
     assert result.first() == tgt_results
 
 
 def test_upsert_file(engine, db_session: Session, smt_summary):
-    upsert_from_file(Path("tests/data/movies_test.csv"), engine, Movie, upsert=True)
+    upsert_from_file(engine, Movie, Path("tests/data/movies_test.csv"), upsert=True)
 
     result = db_session.execute(smt_summary)
     assert result.first() == tgt_results
