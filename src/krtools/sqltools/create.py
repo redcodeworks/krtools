@@ -27,7 +27,17 @@ from ..conf import conf
 
 
 def _set_generator(file: TextIO | Path, fieldnames: list[str] | None) -> Iterator[dict]:
-    """Structural pattern match on the input type."""
+    """Structural pattern match on the input type.
+
+    Args:
+        file (file: TextIO | pathlib.Path): An filelike or a Path. Paths return a generator
+            while anything else is assumed to be valid for A csv.DictReader.
+        fieldnames (list[str] | None): A list of column names for the field headers. This assumes that if entered,
+            the file has no headers.
+
+    Returns:
+          Iterator[dict]: Allows for buffered reads of source data.
+    """
     logging.debug(f"Creating generator from {type(file)}")
     match file:
         case Path() as p:
@@ -61,7 +71,6 @@ def upsert_from_file(
     file: TextIOWrapper | Path,
     columns: list[str] = None,
     upsert: bool = False,
-
 ) -> None:
     """Opens a database session and inserts (or merges) each row.
 
@@ -82,7 +91,6 @@ def upsert_from_file(
 
     with Session(engine) as session, session.begin():
         insert = session.merge if upsert else session.add
-        [insert(model(**row)) for row in stream]
-
-
-
+        [
+            insert(model(**row)) for row in stream
+        ]  # Use ** unpacking to map dict to class params.

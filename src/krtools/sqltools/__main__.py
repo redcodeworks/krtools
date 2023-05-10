@@ -59,12 +59,12 @@ def _sa_engine(sql_alchemy_tgt: str = None) -> Engine:
 
 @app.command()
 def build(
-        sql_alchemy_tgt: str = typer.Option(
-            None, "--target", "-t", help="Target using SQL Alchemy string"
-        ),
-        schema_name: str = typer.Option(
-            ..., "--schema", "-s", help="Corresponds to a directory in models."
-        ),
+    sql_alchemy_tgt: str = typer.Option(
+        None, "--target", "-t", help="Target using SQL Alchemy string"
+    ),
+    schema_name: str = typer.Option(
+        ..., "--schema", "-s", help="Corresponds to a directory in models."
+    ),
 ) -> None:
     """Takes an ORM Model and builds the schema in the target database.
     See the `--help` flag for details.
@@ -78,32 +78,36 @@ def build(
 # TODO: Add support for more file types. Currently expects csvs
 @app.command()
 def create(
-        input_file: typer.FileText = typer.Argument(
-            None if sys.stdin.isatty() else sys.stdin,
-            help="A file or stdin stream of plain text."
-        ),
-        input_files: str = typer.Option(
-            None,
-            "--input-files",
-            "-d",
-            callback=callbacks.parse_paths,
-            help="Path to a directory. Will process all filenames with appropriate extension. Ignored if stdin is "
-                 "provided.",
-        ),
-        sql_alchemy_tgt: str = typer.Option(
-            None, "--target", "-t", help="Target using SQL Alchemy string"
-        ),
-        schema_name: str = typer.Option(
-            ..., "--schema", "-s", help="Corresponds to a directory in models."
-        ),
-        model_name: str = typer.Option(
-            ..., "--model", "-m", help="Corresponds to some matched model in a schema."
-        ),
-        upsert: bool = typer.Option(
-            False, "--upsert", "-u", help="Overwrites if PK exists"
-        ),
-        columns: list[str] = typer.Option(None, "--cols", "-c",
-                                          help="Ordered list of column names. Assumes first row of CSV.")
+    input_file: typer.FileText = typer.Argument(
+        None if sys.stdin.isatty() else sys.stdin,
+        help="A file or stdin stream of plain text.",
+    ),
+    input_files: str = typer.Option(
+        None,
+        "--input-files",
+        "-d",
+        callback=callbacks.parse_paths,
+        help="Path to a directory. Will process all filenames with appropriate extension. Ignored if stdin is "
+        "provided.",
+    ),
+    sql_alchemy_tgt: str = typer.Option(
+        None, "--target", "-t", help="Target using SQL Alchemy string"
+    ),
+    schema_name: str = typer.Option(
+        ..., "--schema", "-s", help="Corresponds to a directory in models."
+    ),
+    model_name: str = typer.Option(
+        ..., "--model", "-m", help="Corresponds to some matched model in a schema."
+    ),
+    upsert: bool = typer.Option(
+        False, "--upsert", "-u", help="Overwrites if PK exists"
+    ),
+    columns: list[str] = typer.Option(
+        None,
+        "--cols",
+        "-c",
+        help="Ordered list of column names. Assumes first row of CSV.",
+    ),
 ) -> None:
     """Takes a file, or a directory of files, and inserts them into the target database.
     See the `--help` flag for details.
@@ -113,8 +117,12 @@ def create(
     callback() if not (input_file or input_files) else None
 
     engine = _sa_engine(sql_alchemy_tgt)
-    model = import_module(f"models.{schema_name}").get_model(model_name)  # Import from ORM package
-    create_records = c.upsert_from_file(engine, model, upsert=upsert, columns=columns if columns else None)  # Curried function
+    model = import_module(f"models.{schema_name}").get_model(
+        model_name
+    )  # Import from ORM package
+    create_records = c.upsert_from_file(
+        engine, model, upsert=upsert, columns=columns if columns else None
+    )  # Curried function
 
     if input_file:
         create_records(file=input_file)
