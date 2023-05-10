@@ -9,8 +9,8 @@ import re
 
 def parse_paths(ctx: typer.Context, name: str) -> typing.Iterable[Path] | None:
     """Transforms a directory name into a list of Posix file paths
-        If the supplied name is already a file, then it will return a
-        monadic collection.
+    If the supplied name is already a file, then it will return a
+    monadic collection.
     """
     if not name:
         return
@@ -21,7 +21,7 @@ def parse_paths(ctx: typer.Context, name: str) -> typing.Iterable[Path] | None:
             Path(name).iterdir(),
             filter(lambda x: x.is_file()),
             filter(lambda x: re.match("^.*\.(csv|CSV)$", str(x))),
-            iter
+            iter,
         )
 
 
