@@ -3,8 +3,12 @@
 A personal toolkit for data malnipulation. A WIP.
 
 ## Installation
-
-- Copy `.env.template` to `.env` and enter your configuration.
+- Requires Python 3.11 and up. Project uses newer constructs like structual pattern matching.
+- Ensure [`poetry`](https://github.com/python-poetry/poetry) is installed.
+- `cp .env.template .env` and enter your configuration into the `.env` file.
+  -  Alternatively, you can use environment variables.
+  -  As of now, the most important configuration is the SQL Alchemy connection string, which specifies your target database. This is treated as a secret in the confiuration.
+  -  **REMINDER:** Never commit your `.env` file to git.
 - Then use `poetry install` to install all project dependencies.
 - Finally, use `poetry run krtools --help` for usage instructions.
 
