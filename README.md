@@ -5,6 +5,7 @@ A personal toolkit for data malnipulation. A WIP.
 ## Installation
 - Requires Python 3.11 and up. Project uses newer constructs like structual pattern matching.
 - Ensure [`poetry`](https://github.com/python-poetry/poetry) is installed.
+  - Since poetry is a standalone CLI app, it's preferable to _not_ use `pip`. Use `pipx`, `brew`, or the installer.
 - `cp .env.template .env` and enter your configuration into the `.env` file.
   -  Alternatively, you can use environment variables.
   -  As of now, the most important configuration is the SQL Alchemy connection string, which specifies your target database. This is treated as a secret in the confiuration.
