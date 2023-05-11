@@ -21,6 +21,8 @@ API reference. Currently, this has not been tested as a package, so the applicat
 
 ## SQL Tools
 
+Conceptually, this application is meant to be used with a SQL Alchemy ORM. This is an area I'm brainstorming, but I would like to get this working so you can import your organizations ORM from a package from a private registry and then supply it on the command line. The challenge here is handling multiple SQL dialects, since not all are interchangable. As of now, The tests work with both SQLite and Postgres, but I'm not using any dialect-specific features of either.
+
 ### Sample commands
 
 Build an ORM model in a database.
