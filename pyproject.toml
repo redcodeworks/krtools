@@ -2,7 +2,7 @@
 name = "krtools"
 version = "0.1.0"
 description = ""
-authors = ["Kevin Riley <kp.riley@icloud.com>"]
+authors = ["Kevin Riley <kevin@redcode.works>"]
 readme = "README.md"
 
 [tool.poetry.scripts]
