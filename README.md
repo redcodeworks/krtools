@@ -25,15 +25,20 @@ Conceptually, this application is meant to be used with a SQL Alchemy ORM. This 
 
 ### Sample commands
 
-Build an ORM model in a database.
+Each of these commands assume that the SQL Alchemy connection string is supplied as an env variable, either on the system on in an `.env` file. Otherwise, the connection string can be supplied with the `--target / -t` option. Be sure to know the risks of supplying sensitive secrets this way. Preferably use environment variables.
+
+#### Build an ORM model in a database.
 
 `krtools sql build --schema movielens`
 
-Insert a CSV file into a database from standard input.
+#### Insert a CSV file into a database from standard input.
+
 `cat tests/data/movies_test.csv | krtools sql create --schema movielens --model movie`
 
-Insert a single CSV file into a database.
+#### Insert a single CSV file into a database.
+
 `poetry run krtools sql create --schema movielens --model movie --upsert --input-files tests/data/movies_test.csv`
 
-Insert many CSV files into a database.
+#### Insert many CSV files into a database.
+
 `poetry run krtools sql create --schema movielens --model movie --upsert --input-files tests/data/`
